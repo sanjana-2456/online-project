@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block title %}My Orders{% endblock %} {% block content %}
+<div class="max-w-screen-xl mx-auto p-6 bg-white border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700">
+  <h2 class="text-3xl font-semibold mb-6 text-gray-900 dark:text-white">My Orders</h2>
+
+  {% if orders %}
+  <div class="overflow-x-auto">
+    <table class="w-full text-left text-gray-700 dark:text-gray-300">
+      <thead class="bg-gray-100 dark:bg-gray-700">
+        <tr>
+          <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">ID</th>
+          <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">Placed On</th>
+          <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">Total Items</th>
+          <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+          <td class="px-6 py-4 font-medium">#{{ order.id }}</td>
+          <td class="px-6 py-4">{{ order.created_at|date:"F j, Y, g:i a" }}</td>
+          <td class="px-6 py-4">{{ order.items.count }}</td>
+          <td class="px-6 py-4">
+            <a
+              href="{% url 'order_detail' order.id %}"
+              class="inline-block px-3 py-1 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+            >
+              View
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-gray-700 dark:text-gray-300">You have no orders yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

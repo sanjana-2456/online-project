@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% block title %}Order #{{ order.id }} Details{% endblock %} {% block content %}
+<div class="max-w-screen-xl mx-auto p-6 bg-white border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700">
+  <h2 class="text-3xl font-semibold mb-6 text-gray-900 dark:text-white">Order #{{ order.id }}</h2>
+
+  <div class="mb-6 space-y-2 text-gray-800 dark:text-gray-300">
+    <p><strong class="font-medium">Name:</strong> {{ order.full_name }}</p>
+    <p><strong class="font-medium">Address:</strong> {{ order.address }}</p>
+    <p><strong class="font-medium">Phone:</strong> {{ order.phone }}</p>
+    <p><strong class="font-medium">Date:</strong> {{ order.created_at|date:"F j, Y, g:i a" }}</p>
+  </div>
+
+  <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Items:</h3>
+  <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+    {% for item in order.items.all %}
+    <li class="py-4 flex items-center justify-between text-gray-700 dark:text-gray-300">
+      <div class="flex items-center space-x-4">
+        {% if item.product.image %}
+        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="w-16 h-16 object-cover rounded-md" />
+        {% endif %}
+        <span class="font-medium line-clamp-3">{{ item.product.name }}</span>
+      </div>
+      <div class="flex items-center space-x-8">
+        <span>Qty: <strong>{{ item.quantity }}</strong></span>
+        <span class="font-semibold">₹{{ item.price }}</span>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <div class="mt-6 text-right text-lg font-semibold text-gray-900 dark:text-white">Total: ₹{{ total_price }}</div>
+</div>
+{% endblock %}

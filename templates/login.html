@@ -1,0 +1,48 @@
+{% extends 'base.html' %}{% load form_tags %} {% block content %}
+
+<div class="height-navbar flex items-center justify-center relative">
+  <div class="bg-image w-full h-full"></div>
+  <div
+    class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700"
+  >
+    <h2 class="text-2xl font-semibold mb-5 text-white">My Shop</h2>
+    <form method="post" class="space-y-6">
+      {% csrf_token %} {% for error in form.non_field_errors %}
+      <p class="text-red-600 text-sm">{{ error }}</p>
+      {% endfor %}
+
+      <div>
+        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+        {{ form.username|add_class:"w-full rounded-lg" }}
+      </div>
+
+      <div>
+        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+        {{ form.password|add_class:"w-full rounded-lg" }}
+      </div>
+
+      <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded-lg">Sign In</button>
+
+      <p class="text-sm text-center text-gray-500 dark:text-gray-300 mt-4">
+        Don't have an account? <a href="{% url 'signup' %}" class="text-blue-600 hover:underline">Sign Up</a>
+      </p>
+    </form>
+  </div>
+</div>
+
+<style>
+  .bg-image {
+    background-image: url("https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+  }
+</style>
+
+{% endblock %}
