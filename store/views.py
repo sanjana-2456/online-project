@@ -11,6 +11,8 @@ from .forms import CheckoutForm
 from .models import Order, OrderItem
 # pip install rapidfuzz
 from rapidfuzz import fuzz 
+from django.urls import reverse
+
 
 def signup(request):
     if request.method == 'POST':
@@ -147,10 +149,10 @@ def home(request):
 
 
     carousel_images = [
-        '/static/images/banner1.jpg',
-        '/static/images/banner2.jpg',
-        '/static/images/banner3.jpg',
-        '/static/images/banner4.jpg',
+        '/static/images/banner 1.jpg',
+        '/static/images/banner 2.jpg',
+        '/static/images/banner 3.jpg',
+        '/static/images/banner 4.jpg',
     ]
 
     return render(request, 'home.html', {
@@ -164,3 +166,35 @@ def home(request):
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     return render(request, 'product_detail.html', {'product': product})
+
+def about(request):
+    return render(request, 'about.html', {
+        'title': 'About Us',
+        'content':  'This is a simple chat application built with Django.'
+    })
+
+
+from django.http import JsonResponse
+from .models import Product
+
+def product_suggestions(request):
+    query = request.GET.get("q", "")
+    if query:
+        products = Product.objects.all()
+
+        results = []
+        for product in products:
+            similarity = fuzz.partial_ratio(query.lower(), product.name.lower())
+            if similarity > 70:
+                results.append((product, similarity))
+        
+        # Sort by similarity score (higher first)
+        results.sort(key=lambda x: x[1], reverse=True)
+        products = [r[0] for r in results]
+        suggestions = [
+            {"name": product.name, "url": reverse("product_detail", args=[product.id]), "image": product.image.url if product.image else ""} 
+            for product in products
+        ]
+    else:
+        suggestions = []
+    return JsonResponse(suggestions, safe=False)

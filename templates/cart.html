@@ -1,52 +1,52 @@
 {% extends 'base.html' %} {% block title %}Your Cart{% endblock %} {% block content %}
 
-<div class="max-w-4xl mx-auto mt-10 p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:text-white">
-  <h2 class="text-2xl font-semibold mb-5">Your Shopping Cart</h2>
+<div class="max-w-4xl mx-auto mt-10 p-4 bg-gray-800 text-white rounded-2xl shadow-lg dark">
+  <h2 class="text-2xl font-bold mb-6">Your Shopping Cart</h2>
 
   {% if cart|length == 0 %}
-  <p class="text-gray-500">Your cart is empty.</p>
+  <p class="text-gray-400">Your cart is empty.</p>
   {% else %}
-  <div class="overflow-x-auto">
-    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-      <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white">
+  <div class="overflow-x-auto rounded-lg">
+    <table class="min-w-full divide-y divide-gray-700">
+      <thead class="bg-gray-700 text-white">
         <tr>
-          <th class="px-4 py-3 text-left text-sm font-medium">Product</th>
-          <th class="px-4 py-3 text-left text-sm font-medium">Unit Price</th>
-          <th class="px-4 py-3 text-left text-sm font-medium">Quantity</th>
-          <th class="px-4 py-3 text-left text-sm font-medium">Total</th>
-          <th></th>
+          <th class="px-6 py-3 text-left text-sm font-semibold">Product</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold">Unit Price</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold">Quantity</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold">Total</th>
+          <th class="px-4 py-3"></th>
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+      <tbody class="divide-y divide-gray-700">
         {% for item in cart %}
         <tr>
-          <td class="px-4 py-4 flex items-center gap-4">
+          <td class="px-6 py-4 flex items-center gap-4">
             <img
               src="{{ item.product.image.url }}"
               alt="{{ item.product.name }}"
-              class="w-16 h-16 object-cover rounded-md border dark:border-gray-600"
+              class="w-16 h-16 object-cover rounded-lg border border-gray-600"
             />
-            <span class="line-clamp-3">{{ item.product.name }}</span>
+            <span class="line-clamp-2 font-medium text-white">{{ item.product.name }}</span>
           </td>
-          <td class="px-4 py-4">₹{{ item.price }}</td>
-          <td class="px-4 py-4">
+          <td class="px-6 py-4 text-gray-300">₹{{ item.price }}</td>
+          <td class="px-6 py-4">
             <div class="flex items-center gap-2">
-              <form action="{% url 'cart_update' item.product.id %}" method="post" class="flex gap-1">
+              <form action="{% url 'cart_update' item.product.id %}" method="post" class="flex">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="decrease" />
-                <button type="submit" class="px-2 py-1 bg-gray-200 rounded dark:bg-gray-700">-</button>
+                <button type="submit" class="px-2 py-1 bg-gray-700 text-white rounded-md hover:bg-gray-600">-</button>
               </form>
-              <span>{{ item.quantity }}</span>
-              <form action="{% url 'cart_update' item.product.id %}" method="post" class="flex gap-1">
+              <span class="px-2">{{ item.quantity }}</span>
+              <form action="{% url 'cart_update' item.product.id %}" method="post" class="flex">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="increase" />
-                <button type="submit" class="px-2 py-1 bg-gray-200 rounded dark:bg-gray-700">+</button>
+                <button type="submit" class="px-2 py-1 bg-gray-700 text-white rounded-md hover:bg-gray-600">+</button>
               </form>
             </div>
           </td>
-          <td class="px-4 py-4">₹{{ item.total }}</td>
-          <td class="px-4 py-4">
-            <a href="{% url 'cart_remove' item.product.id %}" class="text-red-600 hover:underline">Remove</a>
+          <td class="px-6 py-4 text-gray-300">₹{{ item.total }}</td>
+          <td class="px-6 py-4">
+            <a href="{% url 'cart_remove' item.product.id %}" class="text-red-400 hover:underline font-medium">Remove</a>
           </td>
         </tr>
         {% endfor %}
@@ -54,9 +54,11 @@
     </table>
   </div>
 
-  <div class="mt-6 text-right">
-    <h4 class="text-xl font-semibold">Total: ₹{{ cart.get_total_price }}</h4>
-    <a href="{% url 'checkout' %}" class="inline-block mt-4 px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+  <div class="mt-8 text-right">
+    <h4 class="text-xl font-bold text-white">Total: ₹{{ cart.get_total_price }}</h4>
+    <a
+      href="{% url 'checkout' %}"
+      class="inline-block mt-4 px-6 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
       >Proceed to Checkout</a
     >
   </div>

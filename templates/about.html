@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - eShop{% endblock %}
+
+{% block content %}
+  <div>
+      <img src="{% static 'images/welcome.jpg' %}" alt="About Us" class="rounded-lg shadow-md w-full" />
+  </div>
+<!-- Why people choose us Heading -->
+<div class="container-fluid my-4">
+  <h1 class="text-center fw-bold text-uppercase text-dark" style="font-size: 3rem; letter-spacing: 1px;">
+    Why people choose us
+  </h1>
+</div>
+
+<!-- 4 Feature Cards -->
+<div class="container-fluid">
+  <div class="row">
+    <!-- Quickly Return Policy -->
+    <div class="col-md-6 col-12 p-3">
+      <div class="card h-100 p-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title fw-bold text-dark">Quickly Return Policy</h5>
+          <p class="card-text text-muted">
+            We offer a generous 30-day return window from the date of purchase.
+            If for any reason you're not completely satisfied with your purchase,
+            you can initiate a return within this timeframe.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Premium Quality -->
+    <div class="col-md-6 col-12 p-3">
+      <div class="card h-100 p-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title fw-bold text-dark">Premium Quality</h5>
+          <p class="card-text text-muted">
+            We believe in offering nothing but the best to our customers.
+            Each product in our best collection undergoes rigorous quality testing
+            to ensure it meets our high standards for excellence.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Instant Support Team -->
+    <div class="col-md-6 col-12 p-3">
+      <div class="card h-100 p-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title fw-bold text-dark">Instant Support Team</h5>
+          <p class="card-text text-muted">
+            Our support team consists of knowledgeable professionals who are experts in their field.
+            They’ll provide you with accurate information, helpful advice, and personalized assistance
+            to ensure your shopping experience is seamless and enjoyable.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fast Delivery -->
+    <div class="col-md-6 col-12 p-3">
+      <div class="card h-100 p-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title fw-bold text-dark">Fast Delivery</h5>
+          <p class="card-text text-muted">
+            We prioritize efficiency in our shipping process to ensure your order reaches you as quickly as possible.
+            Once your order is placed, our dedicated team works tirelessly to package and dispatch it promptly.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Members photo -->
+<div class="container-fluid my-3">
+  <h1 class="text-center fw-bold text-uppercase text-dark" style="font-size: 2rem; letter-spacing: 0px;">
+    Our Team Members
+  </h1>
+</div>
+<div class="container-fluid d-flex justify-content-center my-4">
+  <div class="row card-group d-flex justify-content-evenly row-cols-1 row-cols-md-3 w-50">
+    <div class="py-3">
+      <div class="card h-100 text-center">
+<img src="{% static 'images/Sanjana.jpg' %}" class="mx-auto d-block rounded-circle" style="width: 300px; height: 400px; object-fit: cover;" alt="Front-End Developer"> <!-- tanu.jpg -->
+        <div class="card-body">
+          <h5 class="memb1 card-title fw-bold">Sanjana Chandra</h5>
+          <p class="memb2 card-text">Front-End Developer</p>
+        </div>
+      </div>
+    </div>
+    <div class="py-3">
+      <div class="card h-100 text-center">
+        <img src="" class="card-img-top img-fluid" alt="Back-End Developer"> <!-- akash.png -->
+        <div class="card-body">
+          <h5 class="memb1 card-title fw-bold">Akash</h5>
+          <p class="memb2 card-text">Back-End Developer</p>
+        </div>
+      </div>
+    </div>
+    <div class="py-3">
+      <div class="card h-100 text-center">
+        <img src="" class="card-img-top img-fluid" alt="Tester"> <!-- muskan.jpg -->
+        <div class="card-body">
+          <h5 class="memb1 card-title fw-bold">Muskan</h5>
+          <p class="memb2 card-text">Tester</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt-5">
+  <h4 class="text-dark">
+    <h1 class="text-center fw-bold text-uppercase text-dark"style="font-size: 2rem; letter-spacing: 1px;">
+Our Motive Is To Provide Best For Those Who Deserve</h1>
+  </h4>
+</div>
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-12 center-card text-center">
+      <div class="card-body">
+        <p class="card-text fs-5">
+          At SmartMart, our mission is unwavering: to deliver excellence to those who truly deserve it. We believe that every customer deserves nothing short of the best, and it is this ethos that drives every aspect of our service.<br><br>
+          From sourcing products of the highest quality to ensuring seamless shopping experiences, we are committed to exceeding your expectations at every turn. Whether you're searching for the perfect gift, upgrading your home essentials, or treating yourself to something special, we're here to make it happen.<br><br>
+          We understand that our customers are discerning individuals with unique needs and preferences. That's why we meticulously curate our collection to cater to a diverse range of tastes and requirements, ensuring that there's something exceptional for everyone.<br><br>
+          At the heart of our endeavor lies a deep-seated dedication to customer satisfaction. We go above and beyond to provide personalized assistance, prompt support, and a hassle-free shopping journey from start to finish. Your happiness is our priority, and we spare no effort in ensuring that every interaction with us leaves you feeling valued and fulfilled.<br><br>
+          Join us on this journey of excellence and discover a world of unparalleled quality, convenience, and care. At SmartMart, we're not just delivering products; we're delivering an experience tailored to meet your highest standards. Because you deserve nothing less than the best.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

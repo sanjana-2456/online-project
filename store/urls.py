@@ -14,10 +14,13 @@ urlpatterns += [
     path('checkout/', views.checkout, name='checkout'),
     path('orders/', views.orders, name='orders'),
     path('order/<int:order_id>/', views.order_detail, name='order_detail'),
+    path("product-suggestions/", views.product_suggestions, name="product_suggestions"),
+
 ]
 
 urlpatterns += [
     path('login/', views.login_view, name='login'),
     path('signup/', views.signup, name='signup'),
     path('logout/', views.logout_view, name='logout'),
+     path('about/', views.about, name='about'),
 ]

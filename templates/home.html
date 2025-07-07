@@ -1,51 +1,52 @@
 {% extends 'base.html' %} {% block content %} {% include 'carousel.html' %}
 
-<div class="max-w-screen-xl px-4 mx-auto">
+<div class="max-w-screen-xl px-4 pb-8 mx-auto">
   <h2 class="text-2xl text-white font-semibold my-5">
     {% if request.GET.q and products %} Search results for "{{ request.GET.q }}" {% elif request.GET.category and products %}
     Products in "{{ request.GET.category }}" {% elif not products %} No products found {% else %} All products {% endif %}
   </h2>
 
-  <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+  <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
     {% for product in products %}
-    <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-      <div class="h-80 overflow-hidden">
-        <img class="rounded-t-lg h-full w-full object-cover" src="{{ product.image.url }}" alt="Product Image" />
+    <div class="border rounded-xl overflow-hidden shadow-md bg-gray-800 border-gray-700 transition hover:shadow-lg">
+      <div class="h-80 overflow-hidden rounded-t-2xl">
+        <img class="h-full w-full object-cover" src="{{ product.image.url }}" alt="Product Image" />
       </div>
-      <div class="p-2">
-        <h5 class="text-lg tracking-tight text-gray-900 dark:text-white line-clamp-2">{{ product.name }}</h5>
-        <div class="flex items-center mt-2.5 mb-5">
-          <a href="{% url 'product_detail' product.id %}" class="text-gray-900 underline dark:text-blue-500">View more</a>
+      <div class="p-4">
+        <h5 class="text-lg tracking-tight text-white line-clamp-2 font-medium">{{ product.name }}</h5>
+        <div class="flex items-center mt-3 mb-4">
+          <a href="{% url 'product_detail' product.id %}" class="underline text-blue-400">View more</a>
         </div>
         <div class="flex items-center justify-between">
-          <span class="text-xl font-bold text-gray-900 dark:text-white">₹{{ product.price }}</span>
+          <span class="text-xl font-bold text-white">₹{{ product.price }}</span>
           <a
             href="{% url 'add_to_cart' product.id %}"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            class="text-white focus:ring-4 focus:outline-none font-semibold rounded-lg text-sm px-4 py-2 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
             >Add to cart</a
           >
         </div>
       </div>
     </div>
-
     {% endfor %}
   </div>
 
-  <div class="flex flex-col md:flex-row md:items-center md:justify-between mt-8">
-    <!-- Help text -->
-    <span class="text-sm text-gray-700 dark:text-gray-400">
-      Showing <span class="font-semibold text-white">{{ products.start_index }}</span> to
-      <span class="font-semibold text-white">{{ products.end_index }}</span> of
-      <span class="font-semibold text-white">{{ products.paginator.count }}</span> Entries
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between mt-10">
+    <span class="text-sm text-gray-300 dark:text-gray-400">
+      Showing
+      <span class="font-semibold text-white">{{ products.start_index }}</span>
+      to
+      <span class="font-semibold text-white">{{ products.end_index }}</span>
+      of
+      <span class="font-semibold text-white">{{ products.paginator.count }}</span>
+      Entries
     </span>
-    <div class="inline-flex my-5 xs:mt-0">
-      <!-- Buttons -->
+    <div class="inline-flex my-5 md:my-0">
       <a
         href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}{% if products.has_previous %}page={{ products.previous_page_number }}{% endif %}"
         class="{% if not products.has_previous %}pointer-events-none{% endif %}"
       >
         <button
-          class="flex items-center justify-center px-3 h-8 text-sm font-medium {% if products.has_previous %} text-white bg-gray-800 hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white {% else %} text-gray-400 bg-gray-300 dark:bg-gray-700 dark:text-gray-400 cursor-not-allowed {% endif %} border-0 border-s border-gray-700 rounded-s"
+          class="flex items-center justify-center px-4 h-9 text-sm font-medium border border-gray-700 rounded-l-lg {% if products.has_previous %} bg-gray-800 text-white {% else %} text-gray-400 bg-gray-700 text-gray-400 cursor-not-allowed {% endif %}"
           {%
           if
           not
@@ -55,7 +56,7 @@
           %}
         >
           <svg
-            class="w-3.5 h-3.5 me-2 rtl:rotate-180"
+            class="w-4 h-4 mr-2 rtl:rotate-180"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -78,7 +79,7 @@
         class="{% if not products.has_next %}pointer-events-none{% endif %}"
       >
         <button
-          class="flex items-center justify-center px-3 h-8 text-sm font-medium {% if products.has_next %} text-white bg-gray-800 hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white {% else %} text-gray-400 bg-gray-300 dark:bg-gray-700 dark:text-gray-400 cursor-not-allowed {% endif %} border-0 border-s border-gray-700 rounded-e"
+          class="flex items-center justify-center px-4 h-9 text-sm font-medium border border-gray-700 rounded-r-lg {% if products.has_next %} bg-gray-800 text-white {% else %} text-gray-400 bg-gray-700 text-gray-400 cursor-not-allowed {% endif %}"
           {%
           if
           not
@@ -89,7 +90,7 @@
         >
           Next
           <svg
-            class="w-3.5 h-3.5 ms-2 rtl:rotate-180"
+            class="w-4 h-4 ml-2 rtl:rotate-180"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
