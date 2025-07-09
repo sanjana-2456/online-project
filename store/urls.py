@@ -22,5 +22,7 @@ urlpatterns += [
     path('login/', views.login_view, name='login'),
     path('signup/', views.signup, name='signup'),
     path('logout/', views.logout_view, name='logout'),
-     path('about/', views.about, name='about'),
+    path('about/', views.about, name='about'),
+    path('profile/', views.profile, name='profile'),
+
 ]

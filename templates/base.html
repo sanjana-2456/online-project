@@ -121,6 +121,7 @@
           >
             {% if request.user.is_authenticated %}
             <li class="flex items-center gap-2">
+              <a href="{% url 'profile' %}" class="block py-2 px-3 rounded-sm md:p-0">
               <i class="fa-solid fa-user text-blue-500"></i><span class="text-blue-500"></span>
             </li>
             <li class="flex items-center gap-2 hover:text-blue-700">

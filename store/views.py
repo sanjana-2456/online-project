@@ -13,6 +13,9 @@ from .models import Order, OrderItem
 from rapidfuzz import fuzz 
 from django.urls import reverse
 
+@login_required(login_url='/accounts/login/') 
+def profile(request):
+    return render(request, 'profile.html',{'user' : request.user})
 
 def signup(request):
     if request.method == 'POST':
