@@ -1,5 +1,6 @@
 from django import forms
 from .models import Order
+from django.contrib.auth.models import User
 
 class CheckoutForm(forms.ModelForm):
     full_name = forms.CharField(widget=forms.TextInput(attrs={
@@ -15,3 +16,4 @@ class CheckoutForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['full_name', 'address', 'phone']
+        
