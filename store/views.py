@@ -140,7 +140,7 @@ def home(request):
 
     categories = Category.objects.all()
 
-    paginator = Paginator(products, 10)
+    paginator = Paginator(products, 12)
     page_number = request.GET.get('page')
 
     try:
