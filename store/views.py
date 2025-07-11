@@ -1,21 +1,21 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Product, Category
+from .models import Product, Category, Order, OrderItem
 from django.db.models import Q
-from django.shortcuts import redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .cart import Cart
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from .forms import CheckoutForm
-from .models import Order, OrderItem
-# pip install rapidfuzz
 from rapidfuzz import fuzz 
 from django.urls import reverse
+from django.http import JsonResponse
+
 
 @login_required(login_url='/accounts/login/') 
 def profile(request):
-    return render(request, 'profile.html',{'user' : request.user})
+    return render(request, 'profile.html', {'user': request.user})
+
 
 def signup(request):
     if request.method == 'POST':
@@ -28,9 +28,11 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
+
 def logout_view(request):
     logout(request)
     return redirect('home')
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -43,6 +45,7 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
+
 @login_required
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -50,10 +53,12 @@ def add_to_cart(request, product_id):
     cart.add(product=product)
     return redirect('cart_detail')
 
+
 @login_required
 def cart_detail(request):
     cart = Cart(request)
     return render(request, 'cart.html', {'cart': cart})
+
 
 @login_required
 def cart_remove(request, product_id):
@@ -61,6 +66,7 @@ def cart_remove(request, product_id):
     cart = Cart(request)
     cart.remove(product)
     return redirect('cart_detail')
+
 
 @login_required
 def cart_update(request, product_id):
@@ -77,8 +83,8 @@ def cart_update(request, product_id):
             else:
                 cart.remove(product)
         return redirect('cart_detail')
-    else:
-        return redirect('cart_detail')
+    return redirect('cart_detail')
+
 
 @login_required
 def checkout(request):
@@ -103,10 +109,12 @@ def checkout(request):
         form = CheckoutForm()
     return render(request, 'checkout.html', {'cart': cart, 'form': form})
 
+
 @login_required
 def orders(request):
     orders = Order.objects.filter(user=request.user)
     return render(request, 'orders.html', {'orders': orders})
+
 
 @login_required
 def order_detail(request, order_id):
@@ -114,24 +122,21 @@ def order_detail(request, order_id):
     total_price = sum(item.price * item.quantity for item in order.items.all())
     return render(request, 'order_detail.html', {'order': order, 'total_price': total_price})
 
+
 def home(request):
     query = request.GET.get('q')
     category_slug = request.GET.get('category')
 
     products = Product.objects.all()
-
     cart = Cart(request)
     cart_product_ids = [int(pid) for pid in cart.cart.keys()]
 
     if query:
-        # products = products.filter(name__icontains=query)
         results = []
         for product in products:
             similarity = fuzz.partial_ratio(query.lower(), product.name.lower())
             if similarity > 70:
                 results.append((product, similarity))
-        
-        # Sort by similarity score (higher first)
         results.sort(key=lambda x: x[1], reverse=True)
         products = [r[0] for r in results]
 
@@ -139,7 +144,6 @@ def home(request):
         products = products.filter(category__slug=category_slug)
 
     categories = Category.objects.all()
-
     paginator = Paginator(products, 12)
     page_number = request.GET.get('page')
 
@@ -150,7 +154,6 @@ def home(request):
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
 
-
     carousel_images = [
         '/static/images/banner 1.jpg',
         '/static/images/banner 2.jpg',
@@ -159,7 +162,7 @@ def home(request):
     ]
 
     return render(request, 'home.html', {
-        'products': page_obj,  # ✅ ensure this is a Page object
+        'products': page_obj,
         'categories': categories,
         'cart_product_ids': cart_product_ids,
         'carousel_images': carousel_images,
@@ -170,34 +173,39 @@ def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     return render(request, 'product_detail.html', {'product': product})
 
+
 def about(request):
     return render(request, 'about.html', {
         'title': 'About Us',
-        'content':  'This is a simple chat application built with Django.'
+        'content': 'This is a simple chat application built with Django.'
     })
 
-
-from django.http import JsonResponse
-from .models import Product
 
 def product_suggestions(request):
     query = request.GET.get("q", "")
     if query:
         products = Product.objects.all()
-
         results = []
         for product in products:
             similarity = fuzz.partial_ratio(query.lower(), product.name.lower())
             if similarity > 70:
                 results.append((product, similarity))
-        
-        # Sort by similarity score (higher first)
         results.sort(key=lambda x: x[1], reverse=True)
         products = [r[0] for r in results]
         suggestions = [
-            {"name": product.name, "url": reverse("product_detail", args=[product.id]), "image": product.image.url if product.image else ""} 
+            {"name": product.name, "url": reverse("product_detail", args=[product.id]), "image": product.image.url if product.image else ""}
             for product in products
         ]
     else:
         suggestions = []
     return JsonResponse(suggestions, safe=False)
+
+
+# ✅ BUY NOW VIEW
+@login_required
+def buy_now(request, product_id):
+     product = get_object_or_404(Product, id=product_id)
+     cart = Cart(request)
+     cart.clear()
+     cart.add(product=product, quantity=1, override_quantity=True)
+     return redirect('checkout')

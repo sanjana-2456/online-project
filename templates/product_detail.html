@@ -36,6 +36,7 @@
         class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-200"
       >
          <i class="fa-solid fa-cart-plus mr-2"></i> Add to Cart
+         
       </button>
       {% else %}
       <button disabled class="w-full py-3 bg-gray-600 text-white font-semibold rounded-lg cursor-not-allowed">
@@ -43,6 +44,23 @@
       </button>
       {% endif %}
     </form>
+<!-- Buy Now Button -->
+<form method="post" action="{% url 'buy_now' product.id %}">
+  {% csrf_token %}
+  {% if product.stock > 0 %}
+  <button
+    type="submit"
+    class="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all duration-200 mt-2"
+  >
+    <i class="fa-solid fa-bolt mr-2"></i> Buy Now 
+  </button>
+  {% else %}
+  <button disabled class="w-full py-3 bg-gray-600 text-white font-semibold rounded-lg cursor-not-allowed mt-2">
+    Out of Stock
+  </button>
+  {% endif %}
+</form>
+
   </div>
 </div>
 <footer class="bg-gray-900">
